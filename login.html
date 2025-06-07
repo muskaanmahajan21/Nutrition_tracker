@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login / Signup - Nutrition Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 450px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #555;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        button {
+            padding: 14px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background: #3d8b40;
+        }
+
+        .tab {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab button {
+            background: none;
+            color: #666;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 15px;
+            margin: 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab .active {
+            color: #4CAF50;
+        }
+
+        .tab .active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #4CAF50;
+            border-radius: 3px 3px 0 0;
+        }
+
+        a {
+            font-size: 14px;
+            text-align: right;
+            color: #666;
+            text-decoration: none;
+            margin: 5px 0;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #4CAF50;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .error-message {
+            color: #f44336;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 4px;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+        }
+
+        .security-questions {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .security-questions h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .question-group {
+            margin-bottom: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .form-container {
+                width: 90%;
+                padding: 20px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="logo">Nutrition Tracker</div>
+        
+        <div class="tab">
+            <button id="showLogin" class="active">Login</button>
+            <button id="showSignup">Sign Up</button>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <input type="hidden" name="form_type" value="login">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
+            </div>
+            <a href="forgot_password.html" id="forgotPassword">Forgot Password?</a>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" style="display:none;">
+            <input type="hidden" name="form_type" value="signup">
+            
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" name="phone" placeholder="Enter phone number">
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" placeholder="Enter your age">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+            </div>
+            
+            <div class="security-questions">
+                <h3>Security Questions</h3>
+                
+                <div class="question-group">
+                    <label for="security_question1">Security Question 1</label>
+                    <select id="security_question1" name="security_question1" required>
+                        <option value="">Select a question</option>
+                        <option value="1">What was the name of your first pet?</option>
+                        <option value="2">What city were you born in?</option>
+                        <option value="3">What is your mother's maiden name?</option>
+                    </select>
+                    <label for="security_answer1" style="margin-top: 8px;">Answer</label>
+                    <input type="text" id="security_answer1" name="security_answer1" placeholder="Your answer" required>
+                </div>
+                
+                <div class="question-group">
+                    <label for="security_question2">Security Question 2</label>
+                    <select id="security_question2" name="security_question2" required>
+                        <option value="">Select a question</option>
+                        <option value="4">What was the name of your elementary school?</option>
+                        <option value="5">What was your childhood nickname?</option>
+                        <option value="6">What is your favorite book?</option>
+                    </select>
+                    <label for="security_answer2" style="margin-top: 8px;">Answer</label>
+                    <input type="text" id="security_answer2" name="security_answer2" placeholder="Your answer" required>
+                </div>
+                
+                <div class="question-group">
+                    <label for="security_question3">Security Question 3</label>
+                    <select id="security_question3" name="security_question3" required>
+                        <option value="">Select a question</option>
+                        <option value="7">What was the make of your first car?</option>
+                        <option value="8">What is your favorite movie?</option>
+                        <option value="9">What is the name of your favorite teacher?</option>
+                    </select>
+                    <label for="security_answer3" style="margin-top: 8px;">Answer</label>
+                    <input type="text" id="security_answer3" name="security_answer3" placeholder="Your answer" required>
+                </div>
+            </div>
+            
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+
+    <script>
+        // Your existing JavaScript remains the same
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check URL parameters to determine which form to show
+            const urlParams = new URLSearchParams(window.location.search);
+            const formType = urlParams.get('form');
+            
+            if (formType === 'signup') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('signupForm').style.display = 'flex';
+                document.getElementById('showSignup').classList.add('active');
+                document.getElementById('showLogin').classList.remove('active');
+            }
+
+            // Form toggle functionality
+            document.getElementById('showLogin').addEventListener('click', function() {
+                document.getElementById('loginForm').style.display = 'flex';
+                document.getElementById('signupForm').style.display = 'none';
+                document.getElementById('showLogin').classList.add('active');
+                document.getElementById('showSignup').classList.remove('active');
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'none';
+            });
+
+            document.getElementById('showSignup').addEventListener('click', function() {
+                document.getElementById('signupForm').style.display = 'flex';
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('showSignup').classList.add('active');
+                document.getElementById('showLogin').classList.remove('active');
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'none';
+            });
+
+            // Forgot password functionality
+            document.getElementById('forgotPassword').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = "forgot_password.html";
+            });
+
+            // Form submission handling - Login
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitForm(this, 'Login successful! Redirecting...');
+            });
+
+            // Form submission handling - Signup
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const form = this;
+                const name = form.name.value.trim();
+                const email = form.email.value.trim();
+                const password = form.password.value;
+                const phone = form.phone.value.trim();
+                const age = form.age.value.trim();
+                const birthdate = form.birthdate.value;
+
+                // Name validation
+                if (!/^[A-Za-z ]{2,50}$/.test(name)) {
+                    showError('Name must be 2-50 letters and spaces only.');
+                    return;
+                }
+                // Email validation
+                if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    showError('Invalid email format.');
+                    return;
+                }
+                // Password validation
+                if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$/.test(password)) {
+                    showError('Password must be at least 6 characters, include a letter and a number.');
+                    return;
+                }
+                // Phone validation (if present)
+                if (phone) {
+                    if (!/^[5-9][0-9]{9}$/.test(phone)) {
+                        showError('Phone must start with 5,6,7,8,9 and be 10 digits.');
+                        return;
+                    }
+                    if (/^(\d)\1{9}$/.test(phone)) {
+                        showError('Phone number cannot be all the same digit.');
+                        return;
+                    }
+                }
+                // Birthdate and age validation
+                if (!birthdate) {
+                    showError('Birthdate is required.');
+                    return;
+                }
+                const birth = new Date(birthdate);
+                const today = new Date();
+                let calcAge = today.getFullYear() - birth.getFullYear();
+                const m = today.getMonth() - birth.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+                    calcAge--;
+                }
+                if (calcAge < 10 || calcAge > 120) {
+                    showError('Age must be between 10 and 120.');
+                    return;
+                }
+                if (age && parseInt(age) !== calcAge) {
+                    showError('Age does not match birthdate.');
+                    return;
+                }
+                
+                // Security questions validation
+                const security_question1 = form.security_question1.value;
+                const security_answer1 = form.security_answer1.value.trim();
+                const security_question2 = form.security_question2.value;
+                const security_answer2 = form.security_answer2.value.trim();
+                const security_question3 = form.security_question3.value;
+                const security_answer3 = form.security_answer3.value.trim();
+                
+                if (!security_question1 || !security_question2 || !security_question3) {
+                    showError('Please select all security questions.');
+                    return;
+                }
+                
+                if (!security_answer1 || !security_answer2 || !security_answer3) {
+                    showError('Please answer all security questions.');
+                    return;
+                }
+                
+                // If all validations pass, submit
+                submitForm(this, 'Registration successful! Redirecting...');
+            });
+
+            function showError(msg) {
+                document.getElementById('errorMessage').innerText = msg;
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            }
+
+            // Function to handle form submission
+            function submitForm(form, successMessage) {
+                const formData = new FormData(form);
+                
+                fetch('auths.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        document.getElementById('successMessage').innerText = successMessage;
+                        document.getElementById('successMessage').style.display = 'block';
+                        document.getElementById('errorMessage').style.display = 'none';
+                        
+                        // Redirect after delay
+                        setTimeout(function() {
+                            window.location.href = data.redirect || 'index.html';
+                        }, 1500);
+                    } else {
+                        // Show error message
+                        document.getElementById('errorMessage').innerText = data.message || 'An error occurred. Please try again.';
+                        document.getElementById('errorMessage').style.display = 'block';
+                        document.getElementById('successMessage').style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('errorMessage').innerText = 'A network error occurred. Please try again.';
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('successMessage').style.display = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

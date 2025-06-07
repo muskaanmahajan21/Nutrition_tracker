@@ -1,0 +1,216 @@
+git init <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 40px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .nav {
+            display: flex;
+        }
+        .nav-item {
+            margin-left: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .search-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .search-box:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 2px 10px rgba(76,175,80,0.2);
+        }
+        .results-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .food-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .food-item:hover {
+            background-color: #f0f0f0;
+        }
+        .food-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .serving-input-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: none;
+        }
+        .serving-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        .nutrition-details {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .nutrition-item {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .nutrition-value {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 16px;
+        }
+        .nutrition-label {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .save-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .save-btn:hover {
+            background-color: #3d8b40;
+        }
+        .user-info {
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Track</div>
+        <div class="nav">
+            <a href="goals.html" class="nav-item">Goals</a>
+            <a href="index.html" class="nav-item active">Add Food</a>
+            <a href="diet.html" class="nav-item">Diet</a>
+            <a href="analysis.html" class="nav-item">Analysis</a>
+            <a href="logout.php" class="nav-item">Logout</a>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchBox" placeholder="Search Food Item">
+    </div>
+    
+    <div class="results-container" id="resultsContainer">
+        <!-- Food items will be displayed here -->
+    </div>
+
+    <div class="serving-input-container" id="servingInputContainer">
+        <input type="number" class="serving-input" id="servingInput" placeholder="Enter number of servings (e.g., 1, 1.5, 2)" min="0.1" step="0.1">
+    </div>
+
+    <div class="nutrition-details" id="nutritionDetails">
+        <button id="saveConsumption" class="save-btn">Save This Entry</button>
+        <!-- Nutrition details will be displayed here -->
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Add this script at the end of your HTML before the closing body tag -->
+    <script>
+        // Check if user is logged in and get user info
+        fetch('check_session.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.logged_in) {
+                    const userNameElement = document.getElementById('userName');
+                    if (userNameElement) {
+                        userNameElement.textContent = 'Welcome, ' + data.user_name;
+                    }
+                } else {
+                    window.location.href = 'login.html';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking session:', error);
+            });
+    </script>
+</body>
+</html>

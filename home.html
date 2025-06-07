@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuttrify - Your Nutrition Tracking Solution</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    :root {
+      --blue: #167ce0;
+      --dark-blue: #2c3e50;
+      --light-blue: #3498db;
+      --light-gray: #ecf0f1;
+      --gray: #95a5a6;
+      --dark-gray: #1a252f;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+      padding: 0 20px;
+      background-color: black;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-logo img {
+      height: 60px;
+      width: 170px;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 60px;
+      list-style: none;
+      color: aliceblue;
+    }
+
+    .navbar-links li {
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-links li:hover {
+      color: var(--blue);
+    }
+
+    .navbar-login {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn {
+      all: unset;
+      padding: 8px 16px;
+      background: var(--blue);
+      color: white;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0c66c2;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 50px 0;
+      min-height: calc(100vh - 72px);
+    }
+
+    .hero-content {
+      flex: 1;
+      padding-right: 20px;
+    }
+
+    .hero h1 {
+      font-weight: 800;
+      line-height: 1.2;
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+      max-height: 500px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Features Section */
+    .features-wrapper {
+      padding: 80px 0;
+      background-color: #f9f9f9;
+    }
+
+    .features-wrapper h2 {
+      font-size: 48px;
+      text-align: center;
+      margin-bottom: 60px;
+      color: #333;
+    }
+
+    .feature-container {
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 60px;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .feature-content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .feature-content h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--blue);
+    }
+
+    .feature-content p {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .feature-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .feature-image img {
+      max-width: 100%;
+      height: auto;
+      max-height: 300px;
+      border-radius: 10px;
+    }
+
+    /* Footer */
+    .footer-container {
+      background-color: var(--dark-blue);
+      color: var(--light-gray);
+      padding: 60px 0 0 0;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 0 20px;
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 200px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      color: var(--light-blue);
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .footer-section h4 {
+      color: var(--light-blue);
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .footer-section p {
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: var(--light-gray);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--light-blue);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      color: var(--light-gray);
+      font-size: 20px;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: var(--light-blue);
+    }
+
+    .footer-bottom {
+      background-color: var(--dark-gray);
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .footer-bottom p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* Help/FAQ Section */
+    .faq-section {
+      margin: 60px auto;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
+    .faq-section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 32px;
+      color: var(--dark-blue);
+    }
+
+    .faq-item {
+      margin-bottom: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .question {
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 15px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .question::after {
+      content: '+';
+      font-size: 20px;
+    }
+
+    .question.active::after {
+      content: '-';
+    }
+
+    .answer {
+      color: #555;
+      display: none;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    .answer.show {
+      display: block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 48px;
+      }
+      
+      .feature-item {
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        height: auto;
+        padding: 20px;
+        flex-wrap: wrap;
+      }
+      
+      .navbar-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      
+      .navbar-login {
+        margin-left: auto;
+      }
+      
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+      }
+      
+      .hero h1 {
+        font-size: 36px;
+      }
+      
+      .hero-content {
+        padding-right: 0;
+      }
+      
+      .feature-item,
+      .feature-item:nth-child(even) {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .social-icons {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+      
+      .navbar-login {
+        gap: 10px;
+      }
+      
+      .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+      }
+      
+      .feature-content h3 {
+        font-size: 24px;
+      }
+    }
+
+    /* About Section Styles */
+    .about-section {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .about-section h2 {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 40px;
+      color: var(--dark-blue);
+    }
+
+    .about-content {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-text p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .about-text h3 {
+      color: var(--blue);
+      margin: 30px 0 20px;
+      font-size: 24px;
+    }
+
+    .about-text ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-bottom: 20px;
+    }
+
+    .about-text ul li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    .about-text ul li:before {
+      content: "✓";
+      color: var(--blue);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .about-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .about-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .about-content {
+        flex-direction: column;
+      }
+      
+      .about-image {
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="container">
+    <div class="navbar-logo">
+      <img src="./Nuttrify.png" alt="Nuttrify Logo" />
+    </div>
+    <ul class="navbar-links">
+      <li id="nav-home">Home</li>
+      <li id="nav-features">Features</li>
+      <li id="nav-support">Support</li>
+    </ul>
+    <div class="navbar-login">
+      <a href="login.html" class="btn login-btn">Login</a>
+      <a href="login.html?form=signup" class="btn signup-btn">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main class="hero container">
+    <div class="hero-content">
+      <h1>NUTRITION <br />FUELS &#127919; <br /> YOUR BEST SELF</h1>
+      <p>
+        Nuttrify helps you track the nutrition of food items and record <br /> your daily food intake, making it easier to maintain a balanced and healthy diet.
+      </p>
+      <div class="hero-btn">
+        <a href="login.html?form=signup" class="btn">Sign Up</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="./hero-pic.jpg" alt="Healthy nutrition" />
+    </div>
+  </main>
+
+  <!-- Features Section -->
+  <section class="features-wrapper" id="features">
+    <h2>Features</h2>
+    <div class="feature-container">
+      <!-- Feature 1 -->
+      <div class="feature-item f-one">
+        <div class="feature-content">
+          <h3>User Authentication</h3>
+          <p>Users have the feature to have a personalized journal specially made for them by registering and logging in securely to track their daily nutritional intake and meal history.</p>
+        </div>
+        <div class="feature-image">
+          <img src="./f1.jpg" alt="User Authentication" />
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-item f-two">
+        <div class="feature-image">
+          <img src="./f2.jpg" alt="Nutritional Analysis" />
+        </div>
+        <div class="feature-content">
+          <h3>Nutritional Analysis</h3>
+          <p>By entering the type of food we are consuming in the search bar the system will provide its nutritional breakdown, including calories, protein, fats and carbohydrates.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-item f-three">
+        <div class="feature-content">
+          <h3>Meal Tracking</h3>
+          <p>The system records what the user consumes on daily basis, keeping track of what they have eaten and the corresponding nutritional values.</p>
+        </div>
+        <div class="feature-image">
+          <img src="./f3.png" alt="Meal Tracking" />
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-item f-four">
+        <div class="feature-image">
+          <img src="./f4.png" alt="Meal History Management" />
+        </div>
+        <div class="feature-content">
+          <h3>Meal History Management</h3>
+          <p>Our product provides a function that it keeps record of all meals consumed by the user, allowing them to review their past dietary habits and make changes in their day to day life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <h2>About Nuttrify</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>Welcome to Nuttrify, your comprehensive nutrition tracking companion designed to help you achieve your health and wellness goals. We understand that maintaining a balanced diet can be challenging in today's fast-paced world, which is why we've created an intuitive platform that makes nutrition tracking simple and effective.</p>
+          
+          <p>At Nuttrify, we believe that good nutrition is the foundation of a healthy lifestyle. Our mission is to empower individuals to make informed dietary choices by providing accurate nutritional information and personalized tracking tools. Whether you're looking to lose weight, gain muscle, or simply maintain a healthy diet, Nuttrify is here to support your journey.</p>
+          
+          <h3>Why Choose Nuttrify?</h3>
+          <ul>
+            <li>Comprehensive nutritional database with thousands of food items</li>
+            <li>Personalized meal tracking and history management</li>
+            <li>User-friendly interface designed for all experience levels</li>
+            <li>Secure and private data management</li>
+            <li>Regular updates and improvements based on user feedback</li>
+          </ul>
+          
+          <p>Join thousands of users who have transformed their relationship with food and nutrition through Nuttrify. Start your journey towards better health today!</p>
+        </div>
+        <div class="about-image">
+          <img src="./about-image.jpeg" alt="Healthy Lifestyle" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ/Help Section -->
+  <section class="faq-section" id="help">
+    <h2>Frequently Asked Questions</h2>
+    
+    <div class="faq-item">
+      <div class="question">How do I track my daily meals?</div>
+      <div class="answer">
+        To track your daily meals, simply log in to your account, click on "Add Meal" button, and enter the food items you've consumed. The system will automatically calculate the nutritional values for you. You can track breakfast, lunch, dinner, and snacks separately.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="question">Can I set nutritional goals?</div>
+      <div class="answer">
+        Yes! Nuttrify allows you to set daily nutritional goals for calories, protein, carbs, and fats. Navigate to your profile settings and select "Goals" to customize them according to your dietary needs and personal health objectives.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="question">How accurate is the nutritional information?</div>
+      <div class="answer">
+        Our nutritional database contains information from verified sources and is regularly updated. While we strive for accuracy, there may be slight variations compared to package labels due to different serving sizes or preparation methods. For packaged foods, you can also scan barcodes for precise information.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="question">Can I export my meal history?</div>
+      <div class="answer">
+        Yes, you can export your meal history as a CSV or PDF file. Go to your profile, select "Meal History," choose the date range you want to export, and click on the "Export" button. This feature is great for sharing information with nutritionists or healthcare providers.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="question">How can I contact support?</div>
+      <div class="answer">
+        For any questions or support needs, please email us at support@nuttrify.com. Our customer service team is available Monday through Friday, 9 AM to 5 PM EST. You can also reach us by phone at 8307203323.
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section about">
+        <h3>Nuttrify</h3>
+        <p>Your personalized nutrition tracking solution for a healthier lifestyle. Start your journey today!</p>
+      </div>
+
+      <div class="footer-section links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#" id="footer-about">About Us</a></li>
+          <li><a href="#features" id="footer-features">Features</a></li>
+          <li><a href="#" id="footer-blog">Blog</a></li>
+          <li><a href="#help" id="footer-contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section contact">
+        <h4>Contact Info</h4>
+        <ul>
+          <li>Email: support@nuttrify.com</li>
+          <li>Phone: 8307203323</li>
+          <li>Address: Thapar, Patiala</li>
+        </ul>
+      </div>
+
+      <div class="footer-section social">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; <span id="current-year"></span> Nuttrify. All rights reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    // Update current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // FAQ functionality
+    const questions = document.querySelectorAll('.question');
+    
+    questions.forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        
+        // Toggle active class on question
+        question.classList.toggle('active');
+        
+        // Toggle show class on answer
+        answer.classList.toggle('show');
+      });
+    });
+    
+    // Smooth scrolling for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Navigation functionality
+    document.getElementById('nav-home').addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    document.getElementById('nav-features').addEventListener('click', () => {
+      const featuresSection = document.getElementById('features');
+      window.scrollTo({
+        top: featuresSection.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    });
+    
+    document.getElementById('nav-support').addEventListener('click', () => {
+      const helpSection = document.getElementById('help');
+      window.scrollTo({
+        top: helpSection.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Login and signup functionality
+    document.querySelector('.login-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    });
+    
+    document.querySelector('.signup-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'login.html?form=signup';
+    });
+    
+    document.querySelector('.hero-btn .btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'login.html?form=signup';
+    });
+  </script>
+</body>
+</html>

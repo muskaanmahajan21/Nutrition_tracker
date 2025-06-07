@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Your Nutrition Goals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 40px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .nav {
+            display: flex;
+        }
+        .nav-item {
+            margin-left: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .welcome-message {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            padding: 5px 15px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 20px;
+        }
+        .goals-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .goals-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .goals-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .goal-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .goal-item label {
+            margin-bottom: 8px;
+            color: #666;
+            font-weight: bold;
+        }
+        .goal-item input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .goal-item input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76,175,80,0.2);
+        }
+        .input-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .vitamin-goals {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .vitamin-goals h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .vitamin-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .vitamin-form select,
+        .vitamin-form input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .vitamin-list {
+            margin-top: 20px;
+        }
+        .vitamin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .vitamin-item button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .vitamin-item button:hover {
+            background-color: #ff5252;
+        }
+        .buttons-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #3d8b40;
+        }
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        .error-message {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Track</div>
+        <div class="welcome-message" id="welcomeMessage">Welcome, User</div>
+        <div class="nav">
+            <a href="goals.html" class="nav-item active">Goals</a>
+            <a href="index.html" class="nav-item">Add Food</a>
+            <a href="diet.html" class="nav-item">Diet</a>
+            <a href="analysis.html" class="nav-item">Analysis</a>
+            <a href="logout.php" class="nav-item">Logout</a>
+        </div>
+    </div>
+
+    <div class="goals-container">
+        <h1 class="goals-title">Set Your Daily Nutrition Goals</h1>
+        <form id="goalsForm" class="goals-form">
+            <div class="goal-item">
+                <label for="calories">Daily Calories (kcal)</label>
+                <input type="number" id="calories" name="calories" min="0" placeholder="800-2500 kcal" required>
+                <div class="input-hint">Recommended range: 800-2500 kcal</div>
+            </div>
+            <div class="goal-item">
+                <label for="protein">Protein (g)</label>
+                <input type="number" id="protein" name="protein" min="0" placeholder="10-200 g" required>
+                <div class="input-hint">Recommended range: 10-200 g</div>
+            </div>
+            <div class="goal-item">
+                <label for="carbs">Carbohydrates (g)</label>
+                <input type="number" id="carbs" name="carbs" min="0" placeholder="50-500 g" required>
+                <div class="input-hint">Recommended range: 50-500 g</div>
+            </div>
+            <div class="goal-item">
+                <label for="fat">Fat (g)</label>
+                <input type="number" id="fat" name="fat" min="0" placeholder="10-100 g" required>
+                <div class="input-hint">Recommended range: 10-100 g</div>
+            </div>
+            <div class="goal-item">
+                <label for="fiber">Fiber (g)</label>
+                <input type="number" id="fiber" name="fiber" min="0" placeholder="5-40 g" required>
+                <div class="input-hint">Recommended range: 5-40 g</div>
+            </div>
+            
+            <div class="vitamin-goals">
+                <h2>Vitamin Goals</h2>
+                <div class="vitamin-form">
+                    <select id="vitaminSelect">
+                        <option value="vitamin_a">Vitamin A (µg)</option>
+                        <option value="vitamin_e">Vitamin E (mg)</option>
+                        <option value="vitamin_d">Vitamin D (µg)</option>
+                        <option value="vitamin_k">Vitamin K (µg)</option>
+                        <option value="vitamin_b1">Vitamin B1 (mg)</option>
+                        <option value="vitamin_b2">Vitamin B2 (mg)</option>
+                        <option value="vitamin_b3">Vitamin B3 (mg)</option>
+                        <option value="vitamin_b5">Vitamin B5 (mg)</option>
+                        <option value="vitamin_b6">Vitamin B6 (mg)</option>
+                        <option value="vitamin_b7">Vitamin B7 (µg)</option>
+                        <option value="vitamin_b9">Vitamin B9 (µg)</option>
+                        <option value="vitamin_c">Vitamin C (mg)</option>
+                    </select>
+                    <input type="number" id="vitaminAmount" min="0" step="0.1" placeholder="Amount">
+                    <button type="button" id="addVitamin">Add Vitamin Goal</button>
+                </div>
+                <div class="input-hint" style="margin-top: -10px; margin-bottom: 10px;">
+                    Vitamin limits: A (≤3000µg), C (≤2000mg), D (≤100µg), E (≤1000mg), K (90-120µg), 
+                    B1 (1.1-1.2mg), B2 (1.1-1.3mg), B3 (≤35mg), B5 (5mg), B6 (≤100mg), B7 (30µg), B9 (400-600µg)
+                </div>
+                <div id="vitaminError" class="error-message"></div>
+                <div class="vitamin-list" id="vitaminList">
+                    <!-- Vitamin goals will be added here -->
+                </div>
+            </div>
+
+            <div class="buttons-container">
+                <button type="submit" class="btn btn-primary">Save Goals</button>
+                <a href="index.html" class="btn btn-secondary">Add Food Consumption</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Check if user is logged in and get user info
+        fetch('check_session.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.logged_in) {
+                    document.getElementById('welcomeMessage').textContent = 'Welcome, ' + data.user_name;
+                } else {
+                    window.location.href = 'login.html';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking session:', error);
+            });
+
+        // Vitamin goals handling
+        const vitaminList = document.getElementById('vitaminList');
+        const vitaminGoals = new Map();
+        const vitaminError = document.getElementById('vitaminError');
+
+        // Vitamin limits configuration
+        const vitaminLimits = {
+            vitamin_a: { min: 0, max: 3000, unit: 'µg' },
+            vitamin_c: { min: 0, max: 2000, unit: 'mg' },
+            vitamin_d: { min: 0, max: 100, unit: 'µg' },
+            vitamin_e: { min: 0, max: 1000, unit: 'mg' },
+            vitamin_k: { min: 90, max: 120, unit: 'µg' },
+            vitamin_b1: { min: 1.1, max: 1.2, unit: 'mg' },
+            vitamin_b2: { min: 1.1, max: 1.3, unit: 'mg' },
+            vitamin_b3: { min: 0, max: 35, unit: 'mg' },
+            vitamin_b5: { min: 0, max: 5, unit: 'mg' },
+            vitamin_b6: { min: 0, max: 100, unit: 'mg' },
+            vitamin_b7: { min: 0, max: 30, unit: 'µg' },
+            vitamin_b9: { min: 400, max: 600, unit: 'µg' }
+        };
+
+        document.getElementById('addVitamin').addEventListener('click', function() {
+            const vitaminSelect = document.getElementById('vitaminSelect');
+            const vitaminAmount = document.getElementById('vitaminAmount');
+            
+            if (!vitaminAmount.value || parseFloat(vitaminAmount.value) <= 0) {
+                vitaminError.textContent = 'Please enter a valid amount';
+                return;
+            }
+
+            const vitaminName = vitaminSelect.value;
+            const amount = parseFloat(vitaminAmount.value);
+            const unit = vitaminSelect.options[vitaminSelect.selectedIndex].text.match(/\((.*?)\)/)[1];
+            
+            // Validate against limits
+            const limits = vitaminLimits[vitaminName];
+            if (!limits) {
+                vitaminError.textContent = 'No limits defined for this vitamin';
+                return;
+            }
+            
+            if (amount < limits.min || amount > limits.max) {
+                vitaminError.textContent = `${vitaminName.replace('_', ' ').toUpperCase()} must be between ${limits.min} and ${limits.max} ${unit}`;
+                return;
+            }
+
+            // Clear any previous error
+            vitaminError.textContent = '';
+
+            // Add to map
+            vitaminGoals.set(vitaminName, { amount, unit });
+
+            // Update UI
+            updateVitaminList();
+
+            // Clear input
+            vitaminAmount.value = '';
+        });
+
+        function updateVitaminList() {
+            vitaminList.innerHTML = '';
+            vitaminGoals.forEach((value, key) => {
+                const item = document.createElement('div');
+                item.className = 'vitamin-item';
+                item.innerHTML = `
+                    <span>${key.replace('_', ' ').toUpperCase()}: ${value.amount} ${value.unit}</span>
+                    <button type="button" onclick="removeVitamin('${key}')">Remove</button>
+                `;
+                vitaminList.appendChild(item);
+            });
+        }
+
+        window.removeVitamin = function(vitaminName) {
+            vitaminGoals.delete(vitaminName);
+            updateVitaminList();
+        };
+
+        // Modify form submission to include vitamin goals
+        document.getElementById('goalsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const calories = parseFloat(document.getElementById('calories').value);
+            const protein = parseFloat(document.getElementById('protein').value);
+            const carbs = parseFloat(document.getElementById('carbs').value);
+            const fat = parseFloat(document.getElementById('fat').value);
+            const fiber = parseFloat(document.getElementById('fiber').value);
+            
+            // Nutrition goals validation
+            if (isNaN(calories) || calories < 800 || calories > 2500) {
+                alert('Calories must be between 800 and 2500 kcal.');
+                return;
+            }
+            if (isNaN(protein) || protein < 10 || protein > 200) {
+                alert('Protein must be between 10 and 200 grams.');
+                return;
+            }
+            if (isNaN(carbs) || carbs < 50 || carbs > 500) {
+                alert('Carbohydrates must be between 50 and 500 grams.');
+                return;
+            }
+            if (isNaN(fat) || fat < 10 || fat > 100) {
+                alert('Fat must be between 10 and 100 grams.');
+                return;
+            }
+            if (isNaN(fiber) || fiber < 5 || fiber > 40) {
+                alert('Fiber must be between 5 and 40 grams.');
+                return;
+            }
+            
+            // Additional vitamin validation (though we already validate on add)
+            let vitaminError = '';
+            vitaminGoals.forEach((value, key) => {
+                const limits = vitaminLimits[key];
+                if (!limits) return;
+                
+                const amount = parseFloat(value.amount);
+                if (amount < limits.min || amount > limits.max) {
+                    vitaminError = `${key.replace('_',' ').toUpperCase()} must be between ${limits.min} and ${limits.max} ${value.unit}`;
+                }
+            });
+            
+            if (vitaminError) {
+                alert(vitaminError);
+                return;
+            }
+            
+            const goals = {
+                calories: document.getElementById('calories').value,
+                protein: document.getElementById('protein').value,
+                carbs: document.getElementById('carbs').value,
+                fat: document.getElementById('fat').value,
+                fiber: document.getElementById('fiber').value,
+                vitamins: Array.from(vitaminGoals.entries()).map(([name, value]) => ({
+                    name,
+                    amount: value.amount,
+                    unit: value.unit
+                }))
+            };
+
+            fetch('save_goals.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(goals)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Goals saved successfully!');
+                } else {
+                    alert('Error saving goals: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to save goals. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

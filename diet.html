@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Overview - Nutrition Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 40px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .nav {
+            display: flex;
+        }
+        .nav-item {
+            margin-left: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        /* Calendar Styles */
+        .calendar-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .calendar-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .calendar-nav {
+            display: flex;
+        }
+        .calendar-nav button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .calendar-day {
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .calendar-day:hover {
+            background-color: #f0f0f0;
+        }
+        .calendar-day.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+
+        /* Nutrition Summary Styles */
+        .nutrition-summary {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .summary-date {
+            font-size: 16px;
+            color: #666;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        .summary-item {
+            text-align: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Food Items List Styles */
+        .food-items-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .food-items-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .food-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .food-item:last-child {
+            border-bottom: none;
+        }
+        .food-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .food-detail {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 14px;
+        }
+        .food-nutrition {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .nutrition-badge {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+        .no-food-items {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .vitamins-title {
+            text-align: center;
+            margin: 30px 0 20px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .vitamins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .vitamins-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Track</div>
+        <div class="nav">
+            <a href="goals.html" class="nav-item">Goals</a>
+            <a href="index.html" class="nav-item">Add Food</a>
+            <a href="diet.html" class="nav-item active">Diet</a>
+            <a href="analysis.html" class="nav-item">Analysis</a>
+            <a href="logout.php" class="nav-item">Logout</a>
+        </div>
+    </div>
+    
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prevMonth" class="calendar-nav-btn">&lt;</button>
+            <div class="calendar-title" id="calendarTitle">April 2025</div>
+            <button id="nextMonth" class="calendar-nav-btn">&gt;</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+            <!-- Calendar will be generated here by JavaScript -->
+        </div>
+    </div>
+    
+    <div class="nutrition-summary">
+        <div class="summary-header">
+            <h2>Nutrition Summary</h2>
+            <div class="summary-date" id="summaryDate">Wednesday, April 9, 2025</div>
+        </div>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div id="totalCalories" class="summary-value">0</div>
+                <div class="summary-label">Calories</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalProtein" class="summary-value">0</div>
+                <div class="summary-label">Protein (g)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalCarbs" class="summary-value">0</div>
+                <div class="summary-label">Carbs (g)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalFat" class="summary-value">0</div>
+                <div class="summary-label">Fat (g)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalFiber" class="summary-value">0</div>
+                <div class="summary-label">Fiber (g)</div>
+            </div>
+        </div>
+        
+        <h3 class="vitamins-title">Vitamins</h3>
+        <div class="vitamins-grid">
+            <div class="summary-item">
+                <div id="totalVitaminA" class="summary-value">0</div>
+                <div class="summary-label">Vitamin A (µg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminE" class="summary-value">0</div>
+                <div class="summary-label">Vitamin E (mg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminD" class="summary-value">0</div>
+                <div class="summary-label">Vitamin D (µg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminK" class="summary-value">0</div>
+                <div class="summary-label">Vitamin K (µg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminB1" class="summary-value">0</div>
+                <div class="summary-label">Vitamin B1 (mg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminB2" class="summary-value">0</div>
+                <div class="summary-label">Vitamin B2 (mg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminB3" class="summary-value">0</div>
+                <div class="summary-label">Vitamin B3 (mg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminB5" class="summary-value">0</div>
+                <div class="summary-label">Vitamin B5 (mg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminB6" class="summary-value">0</div>
+                <div class="summary-label">Vitamin B6 (mg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminB7" class="summary-value">0</div>
+                <div class="summary-label">Vitamin B7 (µg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminB9" class="summary-value">0</div>
+                <div class="summary-label">Vitamin B9 (µg)</div>
+            </div>
+            <div class="summary-item">
+                <div id="totalVitaminC" class="summary-value">0</div>
+                <div class="summary-label">Vitamin C (mg)</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="food-items-container">
+        <div class="food-items-header">Food Items Consumed</div>
+        <div id="foodItemsList">
+            <div class="loading">Loading food items...</div>
+        </div>
+    </div>
+
+    <script src="diet.js"></script>
+</body>
+</html>
