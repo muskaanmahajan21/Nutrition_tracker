@@ -5,7 +5,7 @@ Nuttrify is a fully structured and user-friendly Nutrition Tracking System that 
 
 🌐 Live Demo
 
-(Add your deployed link here if hosted)
+([Add your deployed link here if hosted](https://muskaanmahajan21.github.io/Nutrition_tracker/))
 
 ⭐ Features
 
